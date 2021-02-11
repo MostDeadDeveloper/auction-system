@@ -1,76 +1,48 @@
-from django.views.generic.base import ContextMixin
-from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, CreateView
-from django.views.generic import View
+from django.conf import settings
 from django.db import models
 
+
 # Create your models here.
-
-class GenericView(View):
-    """Base view that every view should inherit from.
-
-    Adds a default `user` instance to the context data
-
+class BaseModel(models.Model):
     """
-    template_name = 'base.html'
+    Base abstract model that provides common fields
+    Inherited by all of the app models
 
-    def get_context_data(self, **kwargs):
-        context = {}
-        context.update(**kwargs)
-        return context
-
-    def get(self, request, *args,  **kwargs):
-        context = self.get_context_data(**kwargs)
-        return render(request, self.template_name, context)
-
-
-class LoginGenericView(LoginRequiredMixin, GenericView):
-    """Any core view that requires a login redirect should inherit from.
-
+    @field
+    is_active : deactivating instead of delete the record
     """
-    login_url = 'account_login'
+    created_time = models.DateTimeField(auto_now_add=True)
+    modified_time = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='+',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    modified_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='+',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        abstract = True
 
 
-class LoginDetailView(LoginRequiredMixin, DetailView):
-    login_url = 'account_login'
-
-    def get_context_data(self, **kwargs):
-        self.object = self.get_object()
-        context = super().get_context_data(**kwargs)
-        context.update(**kwargs)
-        context.update(self.kwargs)
-
-        return context
-
-    def get(self, request, *args, **kwargs):
-        return super().get(request, **kwargs)
-
-
-class LoginFormView(LoginRequiredMixin, FormView):
-    """Any core view that requires a login redirect should inherit from.
-
+class AppUser(BaseModel):
     """
-    login_url = 'account_login'
-
-
-class LoginListView(LoginRequiredMixin, ListView):
-    login_url = 'account_login'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(**kwargs)
-        context.update(self.kwargs)
-
-        return context
-
-    def get(self, request, *args, **kwargs):
-        return super().get(request, **kwargs)
-
-
-class LoginCreateView(LoginRequiredMixin, CreateView):
-    """Any core view that requires a login redirect should inherit from.
-
+    Base abstract model for app users that inherits 'BaseModel'
     """
-    login_url = 'account_login'
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        abstract = True
+

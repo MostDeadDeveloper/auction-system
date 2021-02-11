@@ -19,7 +19,7 @@ from account.views import BaseRedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r"^.*$", BaseRedirectView.as_view(), name="entry-point"),
     path('account/', include('account.urls')),
     path('auction/', include('auction.urls')),
+    # re_path(r'^.*$', BaseRedirectView.as_view(), name="entry-point"),
 ]

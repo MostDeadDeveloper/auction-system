@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
+from core.views import LoginListView
 # Create your views here.
 
 from .models import Auction
 
-class AuctionListView(ListView):
+class AuctionListView(LoginListView):
+    template_name = 'auction/index.html'
     model = Auction
