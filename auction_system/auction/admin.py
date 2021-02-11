@@ -4,4 +4,4 @@ from .models import Auction
 # Register your models here.
 
 
-admin.site.register(Account)
+admin.site.register(Auction)

@@ -46,7 +46,7 @@ THIRD_PARTY_APPS = [
     # 'rest_framework',
     # 'drf_multiple_model',
 
-    'django_js_reverse',
+    # 'django_js_reverse',
 
     # 'webpack_loader',
 ]
