@@ -54,6 +54,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'account',
+    'auction',
+    'auction_system'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
