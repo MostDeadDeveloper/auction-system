@@ -33,11 +33,11 @@ class LoginGenericView(LoginRequiredMixin, GenericView):
     """Any core view that requires a login redirect should inherit from.
 
     """
-    login_url = 'account_login'
+    login_url = 'login'
 
 
 class LoginDetailView(LoginRequiredMixin, DetailView):
-    login_url = 'account_login'
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
@@ -55,11 +55,11 @@ class LoginFormView(LoginRequiredMixin, FormView):
     """Any core view that requires a login redirect should inherit from.
 
     """
-    login_url = 'account_login'
+    login_url = 'login'
 
 
 class LoginListView(LoginRequiredMixin, ListView):
-    login_url = 'account_login'
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
