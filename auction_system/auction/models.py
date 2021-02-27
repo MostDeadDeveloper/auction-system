@@ -1,10 +1,21 @@
 from django.db import models
-
+from django.conf import settings
+from django.utils import timezone
 from core.models import BaseModel
 
 
 class Auction(BaseModel):
     name = models.CharField(max_length=128)
+    start_date = models.DateField(default=timezone.now)
+    end_date = models.DateField(null=True)
+    particating_members = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        name='members',
+    )
+    highest_bid = models.IntegerField(default=0)
+    lowest_bid = models.IntegerField(default=0)
+    minimum_bid_requirement = models.IntegerField(default=0)
+    auction_type = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
