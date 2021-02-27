@@ -123,6 +123,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Login Rules
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'account_login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
