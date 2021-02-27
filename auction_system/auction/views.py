@@ -20,6 +20,7 @@ class AuctionListView(LoginListView):
 class AuctionCreateView(LoginCreateView):
     template_name = 'auction/auction_create.html'
     form_class = AuctionForm
+    success_url = reverse_lazy('auction:all_auctions')
 
 
 class AuctionEditView(LoginUpdateView):

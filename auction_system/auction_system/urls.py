@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('auction/', include('auction.urls')),
+    path('products/', include('products.urls')),
     # re_path(r'^.*$', BaseRedirectView.as_view(), name="entry-point"),
 ]
