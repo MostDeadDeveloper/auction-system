@@ -2,7 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin
 from django.shortcuts import render, redirect, reverse
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import (
+    FormView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.views.generic import View
 
 
@@ -73,3 +78,15 @@ class LoginCreateView(LoginRequiredMixin, CreateView):
     """
     login_url = 'account_login'
 
+class LoginUpdateView(LoginRequiredMixin, UpdateView):
+    """Any core view that requires a login redirect should inherit from.
+
+    """
+    login_url = 'account_login'
+
+
+class LoginDeleteView(LoginRequiredMixin, DeleteView):
+    """Any core view that requires a login redirect should inherit from.
+
+    """
+    login_url = 'account_login'

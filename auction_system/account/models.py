@@ -3,6 +3,7 @@ from django.db import models
 
 from .managers import AccountManager
 
+from core.models import BaseModel
 
 class Account(AbstractUser):
     email = models.EmailField(
@@ -24,3 +25,9 @@ class Account(AbstractUser):
     def __str__(self):
         return self.email
 
+
+class Bidder(BaseModel):
+    name = models.CharField(max_length=64)
+    #  products = mode
+    #  auctions
+    #  main_user

@@ -44,7 +44,7 @@
     {% include 'common/header.html' %}
     {% endblock header %}
 
-    <div class="container">
+    <div id="layoutSidenav_content">
     {% block content %}
 
     {% endblock content %}
@@ -52,6 +52,7 @@
     {% block footer %}
     {% include 'common/footer.html' %}
     {% endblock footer %}
+    </div>
 {% endblock body %}
 
 {# JS Section #}
