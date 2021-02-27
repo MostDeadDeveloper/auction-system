@@ -2,22 +2,23 @@
 {% load static %}
 
 {% block title %}
-  Edit an Auction
+  Delete Current Product
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> Edit This Auction </h3>
+    <h3 class="mt-4"> Edit This Product </h3>
     <div class="card mt-4">
       <div class="card-header">
       </div>
       <div class="card-body">
         <form method="post">{% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Save">
+          <p>Are you sure you want to delete "{{ object }}"?</p>
+          <input type="submit" value="Confirm">
         </form>
       </div>
     </div>
     </div>
 {% endblock %}
+
 
