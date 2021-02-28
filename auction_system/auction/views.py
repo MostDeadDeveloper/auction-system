@@ -1,9 +1,100 @@
-from django.shortcuts import render
-from core.views import LoginListView
-# Create your views here.
+from django.shortcuts import render, redirect
+from django.views.generic.base import RedirectView
+from django.http import HttpResponseRedirect
+from django.urls import reverse, reverse_lazy
 
-from .models import Auction
+from core.views import (
+    LoginListView,
+    LoginCreateView,
+    LoginGenericView,
+    LoginUpdateView,
+    LoginDeleteView,
+)
+
+from .models import Auction, AuctionParticipant
+from .forms import AuctionForm
 
 class AuctionListView(LoginListView):
-    template_name = 'auction/index.html'
+    template_name = 'auction/auction_list.html'
     model = Auction
+    context_object_name = 'auction_list'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Auction.objects.filter(
+            created_by=user
+        )
+
+
+class AuctionCreateView(LoginCreateView):
+    template_name = 'auction/auction_create.html'
+    form_class = AuctionForm
+    success_url = reverse_lazy('auction:all_auctions')
+
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class AuctionEditView(LoginUpdateView):
+    template_name = 'auction/auction_edit.html'
+    form_class = AuctionForm
+    queryset = Auction.objects.all()
+    success_url = reverse_lazy('auction:all_auctions')
+
+    def form_valid(self,form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+class AuctionDeleteView(LoginDeleteView):
+    form_class = AuctionForm
+    success_url = reverse_lazy('auction:all_auctions')
+    queryset = Auction.objects.all()
+
+
+class AvailableAuctionListView(LoginListView):
+    template_name = 'auction/auction_available_list.html'
+    model = Auction
+    context_object_name = 'auction_list'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Auction.objects.filter(
+            is_active=True,
+            #  add date verification if now < current date
+        ).exclude(particating_members=user)
+
+
+class AuctionParticipantJoinView(RedirectView):
+
+    def get_redirect_url(self,**kwargs):
+        auction_id = kwargs.get('pk')
+
+        AuctionParticipant.objects.create(
+            auction_id=auction_id,
+            account=self.request.user,
+        )
+
+        return reverse('auction:all_auctions_available')
+
+
+class OngoingAuctionListView(LoginListView):
+    template_name = 'auction/ongoing_auctions_list.html'
+    model = Auction
+    context_object_name = 'auction_list'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Auction.objects.filter(
+            is_active=True,
+            particating_members=user,
+        )

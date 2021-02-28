@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Ongoing Auctions
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h3 class="mt-4"> Ongoing Auctions </h3>
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4>Available Auctions List </h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id ="dataTable">
+            <thead>
+              <tr>
+                <th>Auction Name</th>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+                <th> Participating Members </th>
+                <th> Products on Auction </th>
+                <th> Highest Current Bid </th>
+                <th> Lowest Current Bid </th>
+                <th> Minimum Bid Required </th>
+                <th> Edit </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for auction in auction_list %}
+                <tr>
+                  <td>{{ auction.name }}</td>
+                  <td>{{ auction.start_date }}</td>
+                  <td>{{ auction.end_date }}</td>
+                  <td> See Current Participating Members </td>
+                  <td> Products on Auction </td>
+                  <td> {{ auction.highest_bid }} </td>
+                  <td> {{ auction.lowest_bid }} </td>
+                  <td> {{ auction.minimum_bid_requirement }} </td>
+                  <td>
+                    <a  class="btn btn-secondary"
+                             type="submit"
+                        href="{% url 'auction:join_auction' auction.id %}">
+                      Participate in Auction
+                    </a>
+
+                  </td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#dataTable').DataTable();
+  } );
+</script>
+{% endblock %}

@@ -25,8 +25,7 @@ SECRET_KEY = '-!a1!^&g=w_vqsdl+8j_u^6(3an%o1n^#p$pxar+3q(*x3+a)a'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dummyaaccounta.pythonanywhere.com']
-
+ALLOWED_HOSTS = ['dummyaaccounta.pythonanywhere.com', '127.0.0.1']
 
 # Application definition
 
@@ -44,18 +43,20 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
 
-    'rest_framework',
-    'drf_multiple_model',
+    # 'rest_framework',
+    # 'drf_multiple_model',
 
-    'django_js_reverse',
+    # 'django_js_reverse',
 
-    'webpack_loader',
+    # 'webpack_loader',
 ]
 
 LOCAL_APPS = [
     'account',
     'auction',
-    'auction_system'
+    'auction_system',
+    'suppliers',
+    'products',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -122,6 +123,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Login Rules
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'account_login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -140,12 +145,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/assets/'
-STATIC_ROOT = os.path.join(APP_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(APP_DIR, 'assets'),
 ]
-
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
