@@ -1,7 +1,14 @@
 {% load static %}
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="index.html">Auction System</a>
-    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
+    {% if user.is_bidder %}
+    <a class="navbar-brand" href="index.html">Auction System - Bidder</a>
+    {% else %}
+    <a class="navbar-brand" href="index.html">Auction System - Supplier</a>
+    {% endif%}
+    <button class="btn btn-link btn-sm order-1 order-lg-0"
+            style="margin-left:20px;"
+            id="sidebarToggle"
+            href="#">
       <i class="fas fa-bars"></i>
     </button>
     <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -69,20 +76,32 @@
           {% comment %}</div>{% endcomment %}
       {% comment %}</nav>{% endcomment %}
         {% comment %}</div>{% endcomment %}
-        <div class="sb-sidenav-menu-heading">Shorcuts</div>
-	<a class="nav-link" href={% url 'auction:all_auctions' %}>
-      <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-      Participated Auctions
+      <div class="sb-sidenav-menu-heading">Shorcuts</div>
+        {% if not user.is_bidder %}
+        <a class="nav-link" href={% url 'auction:all_auctions' %}>
+          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+            My Auctions
         </a>
         <a class="nav-link" href="{% url 'products:all' %}">
-      <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-      Products
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Products
         </a>
-    </div>
+        {% endif %}
+        {% if user.is_bidder %}
+        <a class="nav-link" href="{% url 'auction:all_auctions_available' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Available Auctions
+        </a>
+        <a class="nav-link" href="{% url 'auction:all_auctions_ongoing' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Ongoing Auctions
+        </a>
+        {% endif %}
+        </div>
       </div>
       <div class="sb-sidenav-footer">
     <div class="small">Logged in as:</div>
-				{{ request.user }}
+        {{ request.user }}
       </div>
   </nav>
     </div>

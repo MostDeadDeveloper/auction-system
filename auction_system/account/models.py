@@ -17,6 +17,7 @@ class Account(AbstractUser):
         unique=False,
         blank=True,
     )
+    is_bidder = models.BooleanField(default=True)
 
     REQUIRED_FIELDS = []
 

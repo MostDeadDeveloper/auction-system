@@ -10,7 +10,8 @@ class Auction(BaseModel):
     end_date = models.DateField(null=True)
     particating_members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        name='members',
+        through='auction.AuctionParticipant',
+        through_fields=('auction','account'),
     )
     highest_bid = models.IntegerField(default=0)
     lowest_bid = models.IntegerField(default=0)
@@ -19,3 +20,15 @@ class Auction(BaseModel):
 
     def __str__(self):
         return self.name
+
+class AuctionParticipant(BaseModel):
+    auction = models.ForeignKey(
+        'auction.Auction',
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    account = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.CASCADE,
+    )

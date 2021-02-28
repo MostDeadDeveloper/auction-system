@@ -2,18 +2,15 @@
 {% load static %}
 
 {% block title %}
-  My Auctions - Supplier
+  Available Auctions
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> My Auctions - Supplier</h3>
+    <h3 class="mt-4"> Available Auctions that You Can Participate IN</h3>
     <div class="card mt-4">
       <div class="card-header">
-        <h4>Auctions List </h4>
-        <a class="btn btn-primary float-right" href="{% url 'auction:create' %} ">
-          Create New Auction
-        </a>
+        <h4>Available Auctions List </h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -28,7 +25,6 @@
                 <th> Lowest Current Bid </th>
                 <th> Minimum Bid Required </th>
                 <th> Edit </th>
-                <th> Delete </th>
               </tr>
             </thead>
             <tbody>
@@ -43,15 +39,11 @@
                   <td> {{ auction.minimum_bid_requirement }} </td>
                   <td>
                     <a  class="btn btn-secondary"
-                        href="{% url 'auction:edit_detail' auction.id %}">
-                      Edit
+                             type="submit"
+                        href="{% url 'auction:join_auction' auction.id %}">
+                      Participate in Auction
                     </a>
-                  </td>
-                  <td>
-                    <a  class="btn btn-secondary"
-                        href="{% url 'auction:delete_auction' auction.id %}">
-                      Delete
-                    </a>
+
                   </td>
                 </tr>
               {% endfor %}
