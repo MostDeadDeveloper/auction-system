@@ -8,7 +8,6 @@ class Supplier(BaseModel):
     preferred_name = models.CharField(max_length=50)
     particating_members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        null=True,
         name='members',
     )
     #  auctions
