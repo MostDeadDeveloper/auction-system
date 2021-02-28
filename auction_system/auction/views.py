@@ -37,6 +37,9 @@ class AuctionCreateView(LoginCreateView):
         self.object.created_by = self.request.user
         self.object.save()
 
+        #  Needs a Seperate Save Method for Many to Many Relationships
+        form.save_m2m()
+
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -50,6 +53,9 @@ class AuctionEditView(LoginUpdateView):
         self.object = form.save(commit=False)
         self.object.created_by = self.request.user
         self.object.save()
+
+        #  Needs a Seperate Save Method for Many to Many Relationships
+        form.save_m2m()
 
         return HttpResponseRedirect(self.get_success_url())
 

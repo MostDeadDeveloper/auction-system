@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ auction|default_if_none:'<Name Not Specified>' }}'s Biddable Products
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h3 class="mt-4"> {{ auction|default_if_none:'<Name Not Specified>' }}'s Available Products</h3>
+    <div class="card mt-4">
+      <div class="card-header">
+        <h4>Products List </h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" id ="dataTable">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Owner</th>
+                <th>Product Cost</th>
+                <th>Product Rarity </th>
+                <th> Place A Bid </th>
+                <th> Status </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for product in product_list %}
+                <tr>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.owner_supplier.name }}</td>
+                  <td>{{ product.product_cost }}</td>
+                  <td> {{ product.product_rarity }} </td>
+                  <td>
+                    <a  class="btn btn-secondary"
+                        href="{% url 'products:edit_detail' product.id %}">
+                      Place a Bid
+                    </a>
+                  </td>
+                  <td>
+                    <a  class="btn btn-secondary"
+                        href="{% url 'products:auctioned_product_detail' product.id auction.id %}">
+                      Current Bids/Status
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $(document).ready( function () {
+    $('#dataTable').DataTable();
+  } );
+</script>
+{% endblock %}

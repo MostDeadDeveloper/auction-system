@@ -13,6 +13,11 @@ class Auction(BaseModel):
         through='auction.AuctionParticipant',
         through_fields=('auction','account'),
     )
+    products = models.ManyToManyField(
+        'products.Product',
+        through='products.AuctionedProduct',
+        through_fields=('auction','product')
+    )
     highest_bid = models.IntegerField(default=0)
     lowest_bid = models.IntegerField(default=0)
     minimum_bid_requirement = models.IntegerField(default=0)
