@@ -5,6 +5,8 @@ from .views import (
     ProductCreateView,
     ProductDeleteView,
     ProductEditView,
+    BiddableProductAuctionListView,
+    BiddableAuctionProductDetailView,
 )
 
 app_name = 'products'
@@ -14,6 +16,16 @@ urlpatterns = [
         'all/',
         ProductListView.as_view(),
         name='all',
+    ),
+    path(
+        'all/auction/<int:pk>/biddable/',
+        BiddableProductAuctionListView.as_view(),
+        name='all_biddable',
+    ),
+    path(
+        '<int:pk>/auction/<int:auction_id>/biddable/',
+        BiddableAuctionProductDetailView.as_view(),
+        name='auctioned_product_detail',
     ),
     path(
         'create/',

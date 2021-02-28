@@ -7,9 +7,11 @@ from core.views import (
     LoginCreateView,
     LoginUpdateView,
     LoginDeleteView,
+    LoginDetailView,
 )
 
-from .models import Product
+from .models import Product, AuctionedProduct
+from auction.models import Auction
 from .forms import ProductForm
 
 
@@ -37,6 +39,9 @@ class ProductCreateView(LoginCreateView):
         self.object.created_by = self.request.user
         self.object.save()
 
+        #  Needs a Seperate Save Method for Many to Many Relationships
+        form.save_m2m()
+
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -51,6 +56,9 @@ class ProductEditView(LoginUpdateView):
         self.object.created_by = self.request.user
         self.object.save()
 
+        #  Needs a Seperate Save Method for Many to Many Relationships
+        form.save_m2m()
+
         return HttpResponseRedirect(self.get_success_url())
 
 class ProductDeleteView(LoginDeleteView):
@@ -58,3 +66,51 @@ class ProductDeleteView(LoginDeleteView):
     form_class = ProductForm
     queryset = Product.objects.all()
     success_url = reverse_lazy('products:all')
+
+
+class BiddableProductAuctionListView(LoginListView):
+    template_name = 'products/biddable_product_list.html'
+    model = Product
+    context_object_name = 'product_list'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        auction_id = self.kwargs.get('pk')
+
+        context['auction'] = Auction.objects.get(
+            id=auction_id,
+        )
+
+        return context
+
+    def get_queryset(self, **kwargs):
+        user = self.request.user
+        auction_id = self.kwargs.get('pk')
+
+        return Product.objects.filter(
+            created_by=user,
+            auctionedproduct__auction=auction_id,
+        )
+
+
+class BiddableAuctionProductDetailView(LoginDetailView):
+    template_name = 'products/biddable_auction_product.html'
+    model = AuctionedProduct
+    context_object_name = 'auctioned_product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+    def get_queryset(self, **kwargs):
+        product_id = self.kwargs.get('pk')
+        auction_id = self.kwargs.get('auction_id')
+
+        instance = AuctionedProduct.objects.filter(
+            product=product_id,
+            auction=auction_id
+        )
+
+        return instance

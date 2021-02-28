@@ -96,6 +96,18 @@
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
             Ongoing Auctions
         </a>
+        <a class="nav-link" href="{% url 'auction:all_auctions_ongoing' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Owned/Claimed Products
+        </a>
+        <a class="nav-link" href="{% url 'auction:all_auctions_ongoing' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+          Unclaimed Products
+        </a>
+        <a class="nav-link" href="{% url 'auction:all_auctions_ongoing' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+          My Current Bids
+        </a>
         {% endif %}
         </div>
       </div>

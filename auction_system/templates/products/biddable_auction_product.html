@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Auctioned Product Detail
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <h3 class="mt-4">{{ auctioned_product.product.name }}</h3>
+    <div class="card mt-4">
+      <div class="card-header">
+      </div>
+      <div class="card-body">
+        <h4> Name of Product : {{auctioned_product.product.name }} </h4>
+        <h4> Highest Current Bid : {{ auctioned_product.auction.highest_bid }} </h4>
+
+        <p>Current Bids </p>
+        <table class="table table-bordered">
+        </table>
+      </div>
+    </div>
+    </div>
+{% endblock %}
+
+
