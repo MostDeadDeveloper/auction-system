@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 from core.models import BaseModel
 
@@ -12,6 +13,11 @@ class Product(BaseModel):
     )
     product_cost = models.IntegerField(default=0)
     product_rarity = models.CharField(max_length=128)
+    bidders = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='products.AccountProduct',
+        through_fields=('product','account'),
+    )
 
 
 class AuctionedProduct(BaseModel):
@@ -25,3 +31,17 @@ class AuctionedProduct(BaseModel):
         null=True,
         on_delete=models.CASCADE,
     )
+
+
+class AccountProduct(BaseModel):
+    account = models.ForeignKey(
+        'account.Account',
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    product = models.ForeignKey(
+        'products.Product',
+        null=True,
+        on_delete=models.CASCADE,
+    )
+    given_bid = models.IntegerField(default=0, null=True)

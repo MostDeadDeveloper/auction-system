@@ -10,17 +10,46 @@
     <h3 class="mt-4">{{ auctioned_product.product.name }}</h3>
     <div class="card mt-4">
       <div class="card-header">
+        Product Details
       </div>
       <div class="card-body">
         <h4> Name of Product : {{auctioned_product.product.name }} </h4>
         <h4> Highest Current Bid : {{ auctioned_product.auction.highest_bid }} </h4>
+        <h4>
+          Minimum Required Bid: {{ auctioned_product.auction.minimum_bid_requirement }}
+        </h4>
+        <h4> Current Status: Available/Owned </h4>
 
-        <p>Current Bids </p>
+
         <table class="table table-bordered">
         </table>
       </div>
     </div>
+    
+    <div class="card mt-4">
+      <div class="card-header">
+        Bidding
+      </div>
+      <div class="card-body">
+        <h4> Would You Like To Bid? </h4>
+        <h4> Please Enter The Value You Would Like To Bid For The Product. </h4>
+        <hr/>
+        <form  method="post">
+          {% csrf_token %}
+          <input  type="number"
+                  name="bid"
+                  class="form-control"
+                  min="{{ auctioned_product.auction.minimum_bid_requirement }}"
+                  />
+          <input  class="btn btn-primary mt-4"
+                  value="Place a Bid"
+                  type="submit"/>
+        </form>
+
+      </div>
+
     </div>
+  </div>
 {% endblock %}
 
 

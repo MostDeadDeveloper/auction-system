@@ -10,7 +10,7 @@ from core.views import (
     LoginDetailView,
 )
 
-from .models import Product, AuctionedProduct
+from .models import Product, AuctionedProduct, AccountProduct
 from auction.models import Auction
 from .forms import ProductForm
 
@@ -114,3 +114,27 @@ class BiddableAuctionProductDetailView(LoginDetailView):
         )
 
         return instance
+
+    def post(self, request, **kwargs):
+        auctioned_product = self.get_object()
+        product = auctioned_product.product
+        new_bid = request.POST.get('bid')
+
+        instance = AccountProduct.objects.filter(
+            product=product,
+            account=self.request.user,
+        )
+
+        if not instance:
+            AccountProduct.objects.create(
+                product=product,
+                account=self.request.user,
+                given_bid=new_bid,
+            )
+        else:
+            AccountProduct.objects.filter(
+                product=product,
+                account=self.request.user,
+            ).update(given_bid=new_bid)
+
+        return super().get(request, **kwargs)
