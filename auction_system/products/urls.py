@@ -7,6 +7,8 @@ from .views import (
     ProductEditView,
     BiddableProductAuctionListView,
     BiddableAuctionProductDetailView,
+    BiddedAccountProductListView,
+    UnclaimedProductListView,
 )
 
 app_name = 'products'
@@ -23,7 +25,17 @@ urlpatterns = [
         name='all_biddable',
     ),
     path(
-        '<int:pk>/auction/<int:auction_id>/biddable/',
+        'all/bidded/',
+        BiddedAccountProductListView.as_view(),
+        name='all_products_bidded',
+    ),
+    path(
+        'all/unclaimed/',
+        UnclaimedProductListView.as_view(),
+        name='all_products_unclaimed',
+    ),
+    path(
+        '<int:pk>/biddable/',
         BiddableAuctionProductDetailView.as_view(),
         name='auctioned_product_detail',
     ),

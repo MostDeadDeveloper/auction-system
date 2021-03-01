@@ -14,11 +14,7 @@ class AuctionForm(ModelForm):
             'name',
             'start_date',
             'end_date',
-            'highest_bid',
-            'lowest_bid',
             'minimum_bid_requirement',
-            'products',
-            'auction_type',
         ]
         widgets = {
             'name': TextInput(attrs={'class': 'form-control'}),

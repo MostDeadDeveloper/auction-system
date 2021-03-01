@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block title %}
-  {{ auction|default_if_none:'<Name Not Specified>' }}'s Biddable Products
+  My Current Bids
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> {{ auction|default_if_none:'<Name Not Specified>' }}'s Available Products</h3>
+    <h3 class="mt-4"> My Current Bids </h3>
     <div class="card mt-4">
       <div class="card-header">
-        <h4>Products List </h4>
+        <h4> Bidded Products List </h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -21,8 +21,8 @@
                 <th>Owner</th>
                 <th>Product Cost</th>
                 <th>Product Rarity </th>
-                <th> Place A Bid </th>
                 <th> Status </th>
+                <th>See Details</th>
               </tr>
             </thead>
             <tbody>
@@ -33,15 +33,12 @@
                   <td>{{ product.product_cost }}</td>
                   <td> {{ product.product_rarity }} </td>
                   <td>
-                    <a  class="btn btn-secondary"
-                        href="{% url 'products:edit_detail' product.id %}">
-                      Place a Bid
-                    </a>
+                    Approved/Something
                   </td>
                   <td>
                     <a  class="btn btn-secondary"
                         href="{% url 'products:auctioned_product_detail' product.id %}">
-                      Current Bids/Status
+                      See Details
                     </a>
                   </td>
                 </tr>

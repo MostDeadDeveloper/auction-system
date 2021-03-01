@@ -12,25 +12,25 @@ class Product(BaseModel):
         related_name='owner_supplier',
     )
     product_cost = models.IntegerField(default=0)
+    auction = models.ForeignKey(
+        'auction.Auction',
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='auctioned_product',
+    )
     product_rarity = models.CharField(max_length=128)
     bidders = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         through='products.AccountProduct',
         through_fields=('product','account'),
     )
+    is_claimed = models.BooleanField(default=False)
+    is_released = models.BooleanField(default=False)
 
-
-class AuctionedProduct(BaseModel):
-    auction = models.ForeignKey(
-        'auction.Auction',
-        null=True,
-        on_delete=models.CASCADE,
-    )
-    product = models.ForeignKey(
-        'products.Product',
-        null=True,
-        on_delete=models.CASCADE,
-    )
+    def __str__(self):
+        return '{}'.format(
+            self.name,
+        )
 
 
 class AccountProduct(BaseModel):
@@ -45,3 +45,9 @@ class AccountProduct(BaseModel):
         on_delete=models.CASCADE,
     )
     given_bid = models.IntegerField(default=0, null=True)
+
+    def __str__(self):
+        return '{} - {}'.format(
+            self.account.username,
+            self.product.name,
+        )
