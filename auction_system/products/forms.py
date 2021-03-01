@@ -9,7 +9,8 @@ class ProductForm(ModelForm):
             'name',
             'owner_supplier',
             'product_cost',
-            'product_rarity'
+            'auction',
+            'product_rarity',
         ]
         widgets = {
             'name': TextInput(attrs={'class': 'form-control'}),

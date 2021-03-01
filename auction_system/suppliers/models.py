@@ -17,3 +17,6 @@ class Supplier(BaseModel):
         on_delete=models.CASCADE,
         related_name='main_supplier'
     )
+
+    def __str__(self):
+        return self.name

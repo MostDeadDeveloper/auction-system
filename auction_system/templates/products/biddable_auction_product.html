@@ -7,22 +7,19 @@
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4">{{ auctioned_product.product.name }}</h3>
+    <h3 class="mt-4">{{ auctioned_product.name }}</h3>
     <div class="card mt-4">
       <div class="card-header">
         Product Details
       </div>
       <div class="card-body">
-        <h4> Name of Product : {{auctioned_product.product.name }} </h4>
+        <h4> Name of Product : {{auctioned_product.name }} </h4>
         <h4> Highest Current Bid : {{ auctioned_product.auction.highest_bid }} </h4>
         <h4>
           Minimum Required Bid: {{ auctioned_product.auction.minimum_bid_requirement }}
         </h4>
         <h4> Current Status: Available/Owned </h4>
-
-
-        <table class="table table-bordered">
-        </table>
+        <h4> My Current Highest Bid: {{ given_bid }} </h4>
       </div>
     </div>
     
@@ -39,6 +36,7 @@
           <input  type="number"
                   name="bid"
                   class="form-control"
+                  value="{{ given_bid }}"
                   min="{{ auctioned_product.auction.minimum_bid_requirement }}"
                   />
           <input  class="btn btn-primary mt-4"
