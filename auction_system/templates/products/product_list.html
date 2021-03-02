@@ -24,6 +24,7 @@
                 <th>Owner</th>
                 <th>Product Cost</th>
                 <th>Product Rarity </th>
+                <th> Highest Current Bid </th>
                 <th> Edit </th>
                 <th> Delete </th>
               </tr>
@@ -35,6 +36,7 @@
                   <td>{{ product.owner_supplier.name }}</td>
                   <td>{{ product.product_cost }}</td>
                   <td> {{ product.product_rarity }} </td>
+                  <td> {{product.highest_bid }} </td>
                   <td>
                     <a  class="btn btn-secondary"
                         href="{% url 'products:edit_detail' product.id %}">
