@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.generic.base import RedirectView
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
@@ -75,7 +76,7 @@ class AvailableAuctionListView(LoginListView):
 
         return Auction.objects.filter(
             is_active=True,
-            #  add date verification if now < current date
+            start_date__gt=timezone.now(),
         ).exclude(particating_members=user)
 
 
@@ -103,4 +104,6 @@ class OngoingAuctionListView(LoginListView):
         return Auction.objects.filter(
             is_active=True,
             particating_members=user,
+            start_date__gt=timezone.now(),
+            end_date__lt=timezone.now(),
         )

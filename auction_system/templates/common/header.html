@@ -84,7 +84,11 @@
         </a>
         <a class="nav-link" href="{% url 'products:all' %}">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-            Products
+            My Auctioned Products
+        </a>
+        <a class="nav-link" href="{% url 'products:all_products_releasable' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+            Releasable Products
         </a>
         {% endif %}
         {% if user.is_bidder %}
@@ -96,7 +100,7 @@
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
             Ongoing Auctions
         </a>
-        <a class="nav-link" href="{% url 'auction:all_auctions_ongoing' %}">
+        <a class="nav-link" href="{% url 'products:all_products_claimed' %}">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
             Owned/Claimed Products
         </a>

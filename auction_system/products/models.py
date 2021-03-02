@@ -11,6 +11,12 @@ class Product(BaseModel):
         on_delete=models.CASCADE,
         related_name='owner_supplier',
     )
+    winning_bidder = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='winning_bidder',
+    )
     product_cost = models.IntegerField(default=0)
     auction = models.ForeignKey(
         'auction.Auction',

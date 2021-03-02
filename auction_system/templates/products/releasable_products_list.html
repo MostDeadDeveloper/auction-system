@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-  My Auctioned Products
+  Products for Release
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> My Unclaimed Products </h3>
+    <h3 class="mt-4"> Products Ready For Release </h3>
     <div class="card mt-4">
       <div class="card-header">
       </div>
@@ -24,7 +24,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for product in product_list %}
+              {%for product in product_list %}
                 <tr>
                   <td>{{ product.name }}</td>
                   <td>{{ product.owner_supplier.name }}</td>
@@ -32,8 +32,8 @@
                   <td> {{ product.product_rarity }} </td>
                   <td>
                     <a  class="btn btn-secondary"
-                        href="{% url 'products:claim_product' product.id %}">
-                      Claim Product
+                        href="{% url 'products:release_to_winner' product.id %}">
+                      Release To Winning Bidder
                     </a>
                   </td>
                 </tr>
