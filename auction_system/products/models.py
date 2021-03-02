@@ -24,6 +24,7 @@ class Product(BaseModel):
         on_delete=models.CASCADE,
         related_name='auctioned_product',
     )
+    highest_bid = models.IntegerField(default=0)
     product_rarity = models.CharField(max_length=128)
     bidders = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
