@@ -23,7 +23,6 @@
                 <th> Participating Members </th>
                 <th> Products on Auction </th>
                 <th> Highest Current Bid </th>
-                <th> Lowest Current Bid </th>
                 <th> Minimum Bid Required </th>
                 {% comment %}<th> View Products </th>{% endcomment %}
               </tr>
@@ -44,7 +43,6 @@
 
                   </td>
                   <td> {{ auction.highest_bid }} </td>
-                  <td> {{ auction.lowest_bid }} </td>
                   <td> {{ auction.minimum_bid_requirement }} </td>
                 </tr>
               {% endfor %}

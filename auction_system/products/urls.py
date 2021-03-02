@@ -3,12 +3,16 @@ from django.urls import path
 from .views import (
     ProductListView,
     ProductCreateView,
+    ClaimedProductListView,
     ProductDeleteView,
+    ClaimProductView,
     ProductEditView,
     BiddableProductAuctionListView,
     BiddableAuctionProductDetailView,
     BiddedAccountProductListView,
     UnclaimedProductListView,
+    ReleaseProductToWinnerView,
+    ReleasableProductListView,
 )
 
 app_name = 'products'
@@ -33,6 +37,26 @@ urlpatterns = [
         'all/unclaimed/',
         UnclaimedProductListView.as_view(),
         name='all_products_unclaimed',
+    ),
+    path(
+        'all/claimed/',
+        ClaimedProductListView.as_view(),
+        name='all_products_claimed',
+    ),
+    path(
+        'all/releasable/',
+        ReleasableProductListView.as_view(),
+        name='all_products_releasable',
+    ),
+    path(
+        '<int:pk>/releasable/',
+        ReleaseProductToWinnerView.as_view(),
+        name='release_to_winner',
+    ),
+    path(
+        '<int:pk>/claim/',
+        ClaimProductView.as_view(),
+        name='claim_product',
     ),
     path(
         '<int:pk>/biddable/',

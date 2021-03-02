@@ -1,12 +1,15 @@
 from django.shortcuts import render
+from django.utils import timezone
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+from django.views.generic.base import RedirectView
 from django.urls import reverse, reverse_lazy
 from core.views import (
     LoginListView,
     LoginCreateView,
     LoginUpdateView,
+    LoginGenericView,
     LoginDeleteView,
     LoginDetailView,
 )
@@ -127,11 +130,16 @@ class BiddableAuctionProductDetailView(LoginDetailView):
     def post(self, request, **kwargs):
         auctioned_product = self.get_object()
         new_bid = request.POST.get('bid')
+        auction = auctioned_product.auction
 
         instance = AccountProduct.objects.filter(
             product=auctioned_product,
             account=self.request.user,
         )
+
+        if int(new_bid) > auction.highest_bid:
+            auction.highest_bid = int(new_bid)
+            auction.save()
 
         if not new_bid:
             raise Http404('No New Paper')
@@ -175,5 +183,67 @@ class UnclaimedProductListView(LoginListView):
         return Product.objects.filter(
             bidders=user,
             is_claimed=False,
+            auction__end_date__lt=timezone.now(),
             is_released=True,
         )
+
+
+class ClaimProductView(RedirectView):
+
+    def get_redirect_url(self,**kwargs):
+        product_id = kwargs.get('pk')
+
+        Product.objects.filter(
+            id=product_id,
+        ).update(
+            is_claimed=True,
+            winning_bidder=self.request.user
+        )
+
+        return reverse('products:all_products_claimed')
+
+
+class ClaimedProductListView(LoginListView):
+    template_name = 'products/claimed_products_list.html'
+    model = Product
+    context_object_name = 'product_list'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Product.objects.filter(
+            bidders=user,
+            is_claimed=True,
+            winning_bidder=user,
+            auction__end_date__lt=timezone.now(),
+            is_released=True,
+        )
+
+
+class ReleasableProductListView(LoginListView):
+    template_name = 'products/releasable_products_list.html'
+    model = Product
+    context_object_name = 'product_list'
+
+    def get_queryset(self):
+        user = self.request.user
+
+        return Product.objects.filter(
+            auction__created_by=user,
+            auction__end_date__lt=timezone.now(),
+            is_claimed=False,
+            is_released=False,
+        )
+
+
+class ReleaseProductToWinnerView(LoginGenericView):
+    template_name = 'products/release_to_winner.html'
+
+    def post(self, request, **kwargs):
+        product_id = kwargs.get('pk')
+
+        Product.objects.filter(
+            id=product_id,
+        ).update(is_released=True)
+
+        return redirect('products:all_products_releasable')
