@@ -120,7 +120,6 @@ class BiddableAuctionProductDetailView(LoginDetailView):
             context['given_bid'] = instance.first().given_bid
         else:
             context['given_bid'] = 0
-            context['highest_current_bidder'] = 'No Current Bidder'
 
         if winning_bidder:
             context['highest_bidder'] = winning_bidder.account.email
