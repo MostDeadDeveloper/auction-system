@@ -250,7 +250,7 @@ class ReleaseProductToWinnerView(LoginGenericView):
 
         winning_bidder = AccountProduct.objects.filter(
             product=product_id,
-        ).order_by('given_bid')[0]
+        ).order_by('given_bid').last()
 
         if winning_bidder:
             if product.highest_bid == winning_bidder.given_bid:
