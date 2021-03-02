@@ -187,7 +187,7 @@ class UnclaimedProductListView(LoginListView):
         user = self.request.user
 
         return Product.objects.filter(
-            bidders=user,
+            winning_bidder=user,
             is_claimed=False,
             auction__end_date__lt=timezone.now(),
             is_released=True,
