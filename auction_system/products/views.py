@@ -197,7 +197,6 @@ class ClaimProductView(RedirectView):
             id=product_id,
         ).update(
             is_claimed=True,
-            winning_bidder=self.request.user
         )
 
         return reverse('products:all_products_claimed')
@@ -241,9 +240,20 @@ class ReleaseProductToWinnerView(LoginGenericView):
 
     def post(self, request, **kwargs):
         product_id = kwargs.get('pk')
+        product = Product.objects.get(id=product_id)
 
-        Product.objects.filter(
-            id=product_id,
-        ).update(is_released=True)
+        winning_bidder = AccountProduct.objects.filter(
+            product=product_id,
+        ).order_by('given_bid')[0]
+
+        if winning_bidder:
+            if product.auction.highest_bid == winning_bidder.given_bid:
+                Product.objects.filter(
+                    id=product_id,
+                ).update(
+                    is_released=True,
+                    winning_bidder=winning_bidder.account
+                )
+
 
         return redirect('products:all_products_releasable')
