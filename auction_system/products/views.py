@@ -131,6 +131,7 @@ class BiddableAuctionProductDetailView(LoginDetailView):
         auctioned_product = self.get_object()
         new_bid = request.POST.get('bid')
         auction = auctioned_product.auction
+        product = auctioned_product.product
 
         instance = AccountProduct.objects.filter(
             product=auctioned_product,
@@ -140,6 +141,11 @@ class BiddableAuctionProductDetailView(LoginDetailView):
         if int(new_bid) > auction.highest_bid:
             auction.highest_bid = int(new_bid)
             auction.save()
+
+
+        if int(new_bid) > product.highest_bid:
+            product.highest_bid = int(new_bid)
+            product.save()
 
         if not new_bid:
             raise Http404('No New Paper')
@@ -168,7 +174,8 @@ class BiddedAccountProductListView(LoginListView):
         user = self.request.user
 
         return Product.objects.filter(
-            bidders=user
+            bidders=user,
+            is_claimed=False,
         )
 
 
@@ -247,13 +254,12 @@ class ReleaseProductToWinnerView(LoginGenericView):
         ).order_by('given_bid')[0]
 
         if winning_bidder:
-            if product.auction.highest_bid == winning_bidder.given_bid:
+            if product.highest_bid == winning_bidder.given_bid:
                 Product.objects.filter(
                     id=product_id,
                 ).update(
                     is_released=True,
                     winning_bidder=winning_bidder.account
                 )
-
 
         return redirect('products:all_products_releasable')
