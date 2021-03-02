@@ -111,10 +111,21 @@ class BiddableAuctionProductDetailView(LoginDetailView):
             account=self.request.user,
         )
 
+        winning_bidder = AccountProduct.objects.filter(
+            product=auctioned_product,
+        ).order_by('given_bid').last()
+
+
         if instance:
             context['given_bid'] = instance.first().given_bid
         else:
             context['given_bid'] = 0
+
+        if winning_bidder:
+            context['highest_bidder'] = winning_bidder.account.email
+        else:
+            context['highest_bidder'] = 'No Bidder At The Moment'
+
 
         return context
 

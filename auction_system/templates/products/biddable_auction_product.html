@@ -14,7 +14,8 @@
       </div>
       <div class="card-body">
         <h4> Name of Product : {{auctioned_product.name }} </h4>
-        <h4> Highest Current Bid for This Product : {{ auctioned_product.product.highest_bid }} </h4>
+        <h4> Highest Current Bid for This Product : {{ auctioned_product.highest_bid }} </h4>
+        <h4> Highest Bidder (E-mail) for This Product : {{ highest_bidder }} </h4>
         <h4> Highest Current Bid for This Auction : {{ auctioned_product.auction.highest_bid }} </h4>
         <h4>
           Minimum Required Bid: {{ auctioned_product.auction.minimum_bid_requirement }}
