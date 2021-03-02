@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block title %}
-  My Current Bids
+  Bidder Dashboard
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> My Current Bids </h3>
+    <h3 class="mt-4"> Bidder Dashboard </h3>
     <div class="card mt-4">
       <div class="card-header">
         <h4> Bidded Products List </h4>
@@ -21,6 +21,7 @@
                 <th>Owner</th>
                 <th>Product Cost</th>
                 <th>Product Rarity </th>
+                <th> Highest Current Bid </th>
                 <th> Status </th>
                 <th>See Details</th>
               </tr>
@@ -31,6 +32,7 @@
                   <td>{{ product.name }}</td>
                   <td>{{ product.owner_supplier.name }}</td>
                   <td>{{ product.product_cost }}</td>
+                  <td>{{ product.highest_bid }}</td>
                   <td> {{ product.product_rarity }} </td>
                   <td>
                     Approved/Something

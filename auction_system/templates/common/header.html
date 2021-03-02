@@ -29,10 +29,20 @@
       <div class="sb-sidenav-menu">
     <div class="nav">
         <div class="sb-sidenav-menu-heading">Core</div>
-        <a class="nav-link" href="{% url 'account:dashboard' %}">
-      <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-      Dashboard
+        {% if user.is_bidder %}
+        <a class="nav-link" href="{% url 'products:all_products_bidded' %}">
+          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+          Bidder Dashboard
         </a>
+        {% endif %}
+        {% if not user.is_bidder %}
+
+        <a class="nav-link" href="{% url 'account:supplier_dashboard' %}">
+        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+        Supplier Dashboard
+          </a>
+        {% endif %}
+
         {% comment %}<div class="sb-sidenav-menu-heading">Shorcuts</div>{% endcomment %}
         {% comment %}<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">{% endcomment %}
       {% comment %}<div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>{% endcomment %}
@@ -107,10 +117,6 @@
         <a class="nav-link" href="{% url 'products:all_products_unclaimed' %}">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Unclaimed Products
-        </a>
-        <a class="nav-link" href="{% url 'products:all_products_bidded' %}">
-          <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-          My Current Bids
         </a>
         {% endif %}
         </div>

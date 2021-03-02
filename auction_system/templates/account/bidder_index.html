@@ -2,35 +2,36 @@
 {% load static %}
 
 {% block title %}
-  Claimed Products
+  My Dashboard
 {% endblock %}
 
 {% block content %}
   <div class="container-fluid">
-    <h3 class="mt-4"> Claimed Products </h3>
+    <h3 class="mt-4"> My Dashboard </h3>
     <div class="card mt-4">
       <div class="card-header">
+        <h4>My Ongoing Auctions </h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-bordered" id ="dataTable">
             <thead>
               <tr>
-                <th>Product Name</th>
-                <th>Owner</th>
-                <th>Product Cost</th>
-                <th>Product Rarity </th>
-                <th> Status </th>
+                <th>Auction Name</th>
+                <th>Starting Date</th>
+                <th>Ending Date</th>
+                <th> Highest Current Bid </th>
+                <th> Minimum Bid Required </th>
               </tr>
             </thead>
             <tbody>
-              {%for product in product_list %}
+              {%for auction in auction_list %}
                 <tr>
-                  <td>{{ product.name }}</td>
-                  <td>{{ product.owner_supplier.name }}</td>
-                  <td>{{ product.product_cost }}</td>
-                  <td> {{ product.product_rarity }} </td>
-                  <td> Claimed/Owned</td>
+                  <td>{{ auction.name }}</td>
+                  <td>{{ auction.start_date }}</td>
+                  <td>{{ auction.end_date }}</td>
+                  <td> {{ auction.highest_bid }} </td>
+                  <td> {{ auction.minimum_bid_requirement }} </td>
                 </tr>
               {% endfor %}
 

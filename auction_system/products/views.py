@@ -137,15 +137,6 @@ class BiddableAuctionProductDetailView(LoginDetailView):
             account=self.request.user,
         )
 
-        if int(new_bid) > auction.highest_bid:
-            auction.highest_bid = int(new_bid)
-            auction.save()
-
-
-        if int(new_bid) > auctioned_product.highest_bid:
-            auctioned_product.highest_bid = int(new_bid)
-            auctioned_product.save()
-
         if not new_bid:
             raise Http404('No New Paper')
 
@@ -160,6 +151,16 @@ class BiddableAuctionProductDetailView(LoginDetailView):
                 product=auctioned_product,
                 account=self.request.user,
             ).update(given_bid=new_bid)
+
+
+        if int(new_bid) > auction.highest_bid:
+            auction.highest_bid = int(new_bid)
+            auction.save()
+
+
+        if int(new_bid) > auctioned_product.highest_bid:
+            auctioned_product.highest_bid = int(new_bid)
+            auctioned_product.save()
 
         return super().get(request, **kwargs)
 
