@@ -174,6 +174,7 @@ class BiddedAccountProductListView(LoginListView):
 
         return Product.objects.filter(
             bidders=user,
+            auction__end_date__lt=timezone.now(),
             is_claimed=False,
         )
 
