@@ -126,6 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Login Rules
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'account_login'
 
 # Internationalization
