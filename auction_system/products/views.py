@@ -131,7 +131,6 @@ class BiddableAuctionProductDetailView(LoginDetailView):
         auctioned_product = self.get_object()
         new_bid = request.POST.get('bid')
         auction = auctioned_product.auction
-        product = auctioned_product.product
 
         instance = AccountProduct.objects.filter(
             product=auctioned_product,
@@ -143,9 +142,9 @@ class BiddableAuctionProductDetailView(LoginDetailView):
             auction.save()
 
 
-        if int(new_bid) > product.highest_bid:
-            product.highest_bid = int(new_bid)
-            product.save()
+        if int(new_bid) > auctioned_product.highest_bid:
+            auctioned_product.highest_bid = int(new_bid)
+            auctioned_product.save()
 
         if not new_bid:
             raise Http404('No New Paper')
