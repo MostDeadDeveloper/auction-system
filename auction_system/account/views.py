@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth.views import LoginView
 
-from core.views import LoginGenericView, GenericView
+from core.views import LoginGenericView, GenericView, LoginListView
 
 class BaseRedirectView(RedirectView):
 
@@ -17,7 +17,7 @@ class BaseRedirectView(RedirectView):
         return reverse('account:dashboard')
 
 
-class DashboardView(LoginGenericView):
+class BidderDashboardView(LoginListView):
     template_name = 'account/index.html'
 
 
