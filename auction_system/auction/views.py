@@ -104,6 +104,6 @@ class OngoingAuctionListView(LoginListView):
         return Auction.objects.filter(
             is_active=True,
             particating_members=user,
-            start_date__gt=timezone.now(),
-            end_date__lt=timezone.now(),
+            start_date__lt=timezone.now(),
+            end_date__gt=timezone.now(),
         )
