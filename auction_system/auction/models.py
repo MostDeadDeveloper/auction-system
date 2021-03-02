@@ -6,7 +6,7 @@ from core.models import BaseModel
 
 class Auction(BaseModel):
     name = models.CharField(max_length=128)
-    start_date = models.DateField(default=timezone.now)
+    start_date = models.DateField(null=True)
     end_date = models.DateField(null=True)
     particating_members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
